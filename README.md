@@ -1,3 +1,3 @@
 # LIVE-PROJECTS
 
-- [API Reference](/GEN AI.md)
+[GEN AI](/GEN%20AI.md)
