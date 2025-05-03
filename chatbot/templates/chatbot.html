@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saswat's Gen AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .heading {
+            text-align: center;
+            position: fixed;
+            left: 15px;
+            top: 0;
+            z-index: 3;
+            h3{
+                margin: 10px 0 0 0;
+                color: royalblue;
+            }
+            h1{
+                margin: 0;
+            }
+        }
+
+        .options{
+            text-align: center;
+            position: fixed;
+            right: 15px;
+            top: 10px;
+            z-index: 3;
+            a{
+                color: black;
+            }
+            i{
+                font-size: 25px;
+                margin: 15px;
+            }
+        }
+
+        .head {
+            background-color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+        .cntr {
+            display: flex;
+            justify-content: center;
+
+            form{
+                display: flex;
+                justify-content: center;
+                margin: 20px auto;
+            }
+
+            input {
+                width: 500px;
+                height: 40px;
+                padding: 1px 20px;
+                border-radius: 30px;
+                border: 2px solid royalblue;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            button {
+                border: none;
+                background-color: royalblue;
+                padding: 10px 30px;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 30px;
+                transition: all 0.2s;
+                margin-left: 20px;
+            }
+        }
+
+        #entries {
+            margin-top: 130px;
+        }
+
+        .entry {
+            margin: auto 200px 60px;
+            position: relative;
+        }
+
+        .in-brd{
+            position: absolute;
+            width: 8px;
+            height: 45px;
+            background-color: rgb(230, 236, 255);
+            top: -10px;
+            left: 20px;
+            border-top-left-radius: 10px;
+        }
+
+        .input {
+            margin: 25px;
+            margin-left: 40px;
+        }
+
+        .output {
+            background-image: linear-gradient(to right, rgb(230, 236, 255), rgb(181, 198, 255));
+            padding: 10px;
+            margin: 15px 20px;
+            border-radius: 0 10px 10px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heading"><h3>Saswat's</h3><h1>Gen AI</h1></div>
+    <div class="options">
+        <a href=""><i class="fa-solid fa-circle-half-stroke" title="Change Theme"></i></a>
+        <a href="{% url 'delete' %}"><i class="fa-solid fa-trash" title="Remove Conversations"></i></div></a>
+    <div class="cntr head">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" id="user_input" name="user_input"><br>
+            <button type="submit">Submit</button>
+        </form>
+        <br>
+    </div>
+    <div id="entries">
+        {% for entry in entries %}
+        <div class="entry">
+            <strong class="input">{{ entry.input }}</strong> <br>
+            <div class="output">{{ entry.output|safe }}</div>
+            <div class="in-brd"></div>
+        </div>
+        {% empty %}
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <h1 class="cntr">No Conversations.</h1>
+        <h3 class="cntr" style="color: royalblue;">Please start a new conversation by typing a message.</h3>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            form.addEventListener('submit', function () {
+                submitButton.disabled = true;
+                submitButton.innerText = 'Generating...';
+            });
+        });
+    </script>
+</body>
+
+</html>
