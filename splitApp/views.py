@@ -113,3 +113,87 @@ def send_youtube_monthly_split(request):
             return redirect('send_youtube_monthly_split')  # Replace with your desired redirect
 
     return render(request, 'month_form.html')
+
+def send_youtube_monthly_receipt(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        for_month = request.POST.get('month', '')
+        amount = request.POST.get('amount', '')
+        transaction_id = request.POST.get('transactionId', '')
+        received_date = request.POST.get('receivedDate', '')
+        received_time = request.POST.get('receivedTime', '')
+        payment_from = request.POST.get('paymentFrom', '')
+        # formatted_month = datetime.strptime(selected_month, "%Y-%m").strftime("%B %Y")
+        if email:
+            subject = f"Payment Receipts for YouTube Premium."
+            message = f"""
+            <!DOCTYPE html>
+            <html lang="en">
+
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+
+            <body style="font-family: Arial, sans-serif; margin: 0; padding: 2px;">
+                <div class="container" style="max-width: 650px; margin: auto;">
+                    <div class="mainPic" style="margin: 40px auto 0px; text-align: left;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/YouTube_Premium_logo.svg/2560px-YouTube_Premium_logo.svg.png"
+                            alt="Youtube Premium" style="width: 130px;">
+                    </div>
+                    <h1 style="font-size: 20px; margin: 25px 0 5px; text-align: left;">Hi {name}</h1>
+                    <p class="footerDesc" style="text-align: left; margin: 0px 20px 20px 0; font-size: 12px;">Thank you for being a
+                        valued part of our YouTube Premium family. Your support means the world to us. We're thrilled to have you
+                        with us on this ad-free, entertainment-filled journey!</p>
+                    <div style="text-align: center;">
+                        <p style="font-size: 23px; font-weight: bold; margin: 10px;">Recieved</p>
+                        <p style="font-size: 40px; font-weight: bolder; color: green; margin: 0;">₹{amount}</p>
+                        <p style="font-size: 13px; font-weight: bold; margin: 10px 0 5px; color: rgb(66, 66, 66);">for the month of
+                        </p>
+                        <p style="font-size: 25px; font-weight: bold; margin: 0px 0 30px; color: royalblue;">{for_month}</p>
+                    </div>
+                    <div class="block"
+                        style="border: 1px solid #ddd; border-radius: 8px; width: calc(100% - 20px); padding: 10px; margin-bottom: 20px; font-weight: bold; color: grey;">
+                        <table spacing="0" cellpadding="0" cellspacing="10">
+                            <tbody style="font-size: 12px;">
+                                <tr>
+                                    <td>Transaction ID</td>
+                                    <td>: {transaction_id}</td>
+                                </tr>
+                                <tr>
+                                    <td>Recieved On</td>
+                                    <td>: {received_date} ({received_time})</td>
+                                </tr>
+                                <tr>
+                                    <td>Payment From</td>
+                                    <td>: {payment_from}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="footerDesc" style="text-align: center; margin: 30px 20px 20px; font-size: 12px;">If you have any
+                        questions about the payment, just reply to this message
+                        <br /><br />we’re here to help!
+                        We want to make sure everything is smooth and hassle-free for you.
+                        Thanks again for being a part of our YouTube Premium family.
+                        Sit back, relax, and enjoy top-notch entertainment with no interruptions!
+                    </p>
+                    <img class="footerImage" src="https://miro.medium.com/v2/resize:fit:1400/1*vNWQi_uRDnm4Y5uYqq9zkw.png" alt=""
+                        style="width: 100%; margin: 0px auto;">
+                </div>
+            </body>
+
+            </html>
+
+            """
+            from_email = settings.DEFAULT_FROM_EMAIL
+            email = EmailMessage(subject, message, from_email, [email])
+            email.content_subtype = "html"  # Specify the email content type as HTML
+            email.send()
+
+            messages.success(request, f"Email sent to {name}!")
+            return redirect('send_youtube_monthly_receipt')  # Replace with your desired redirect
+
+    return render(request, 'receipt_form.html')
