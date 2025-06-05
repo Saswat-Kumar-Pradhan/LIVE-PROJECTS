@@ -5,8 +5,15 @@ from django.conf import settings
 from datetime import datetime
 
 # Predefined recipient list (could also be put in settings)
-RECIPIENT_LIST = ['saswatkumar059@gmail.com']
-
+RECIPIENT_LIST = [
+    'saswatkumar059@gmail.com',
+    'msiddharthkumar2000@gmail.com',
+    'soma756126@gmail.com',
+    'rajxid836@gmail.com',
+    'nayaksubrat030247@gmail.com',
+    'mangesh.mane95@gmail.com',
+    'sumankumarpradhan789@gmail.com'
+]
 def send_youtube_monthly_split(request):
     if request.method == 'POST':
         selected_month = request.POST.get('month', '')
